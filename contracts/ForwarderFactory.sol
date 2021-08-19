@@ -1,25 +1,20 @@
-pragma solidity >=0.5.0 <0.7.0;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
 import "./Forwarder.sol";
+import '@openzeppelin/contracts/proxy/Clones.sol';
 
-contract ForwarderFactory {
+contract ForwarderFactory{
 
-  function cloneForwarder(address forwarder, uint256 salt)
+  event FactoryCloned(address factory);
+
+  function cloneForwarder(address forwarder, bytes32 salt)
       public returns (Forwarder clonedForwarder) {
-    address clonedAddress = createClone(forwarder, salt);
+    address clonedAddress = Clones.cloneDeterministic(forwarder, salt);
     Forwarder parentForwarder = Forwarder(forwarder);
     clonedForwarder = Forwarder(clonedAddress);
-    clonedForwarder.init(parentForwarder.destination());
+    clonedForwarder.initialize(parentForwarder.destination());
+    emit FactoryCloned(clonedAddress);
   }
 
-  function createClone(address target, uint256 salt) private returns (address result) {
-    bytes20 targetBytes = bytes20(target);
-    assembly {
-      let clone := mload(0x40)
-      mstore(clone, 0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000)
-      mstore(add(clone, 0x14), targetBytes)
-      mstore(add(clone, 0x28), 0x5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000)
-      result := create2(0, clone, 0x37, salt)
-    }
-  }
 }

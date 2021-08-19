@@ -1,28 +1,26 @@
-pragma solidity >=0.5.0 <0.7.0;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
 import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
-import "@openzeppelin/contracts/ownership/Ownable.sol";
+import '@openzeppelin/contracts/proxy/utils/Initializable.sol';
 
-contract Forwarder is Ownable{
+contract Forwarder is Initializable{
+  
   address payable public destination;
 
-  constructor(address payable _destination) public {
+  function initialize(address payable _destination) public initializer{
     destination = _destination;
   }
 
-  function init(address payable _destination) public{
-    destination = _destination;
-  }
-
-  function flushERC20(address tokenContractAddress) public {
+  function withdrawERC20(address tokenContractAddress) public {
     IERC20 tokenContract = ERC20(tokenContractAddress);
     uint256 forwarderBalance = tokenContract.balanceOf(address(this));
     tokenContract.transfer(destination, forwarderBalance);
   }
 
-  function flushETH() public {
-      destination.transfer(address(this).balance);
+  function withdrawETH() public {
+    destination.transfer(address(this).balance);
   }
 
 }
