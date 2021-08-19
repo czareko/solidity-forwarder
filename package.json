@@ -1,0 +1,9 @@
+{
+  "name": "solidity-forwarder",
+  "version": "0.5.0",
+  "description": "Coin forwarder",
+  "author": "Cezary Olborski",
+  "dependencies": {
+    "@openzeppelin/contracts": "^2.4.0"
+  }
+}
