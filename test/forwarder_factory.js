@@ -13,16 +13,29 @@ contract('ForwarderFactory', (accounts)=>{
         const destination = accounts[0];
         await forwarder.initialize(destination);
         const forwarderDestination = await forwarder.destination.call();
-        console.log('Original destination: '+forwarderDestination);
-        const salt = 34554;
+        const salt = 34554; //sample salt
         const clonedForwarder = await forwarderFactory.cloneForwarder.call(forwarder.address,web3.utils.asciiToHex(salt));
 
         assert.notEqual(forwarder.address,clonedForwarder,'Cloned forwarder should have a different address');
 
     });
-    it('should have the same destination',async()=>{
+    it('should have the same destination but different contract address',async()=>{
         const destination = accounts[0];
+        const transactionSender = accounts[1];
         await forwarder.initialize(destination);
-        //TODO
+        const forwarderDestination = await forwarder.destination.call();
+        const salt = 34554;// sample salt
+        const transactionRecipt = await forwarderFactory.cloneForwarder(
+            forwarder.address,
+            web3.utils.asciiToHex(salt),
+            {from: transactionSender}
+        );
+
+        clonedContractAddress = transactionRecipt.logs[0].args.factory;
+        const clonedForwarder = await Forwarder.at(clonedContractAddress);
+        const clonedForwarderDestination = await clonedForwarder.destination.call();
+ 
+        assert.notEqual(forwarder.address,clonedForwarder.address,'Cloned forwarder should have a different address');
+        assert.equal(forwarderDestination,clonedForwarderDestination,'Destination should be cloned from original forwarder');
     });
 });
