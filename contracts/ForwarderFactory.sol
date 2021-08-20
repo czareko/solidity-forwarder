@@ -16,5 +16,4 @@ contract ForwarderFactory{
     clonedForwarder.initialize(parentForwarder.destination());
     emit FactoryCloned(clonedAddress);
   }
-
 }
