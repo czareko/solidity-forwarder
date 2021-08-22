@@ -8,6 +8,10 @@ contract ForwarderFactory{
 
   event FactoryCloned(address factory);
 
+  /**
+   * Standard forwarder based on idea from ERC1167
+   */
+
   function cloneForwarder(address forwarder, bytes32 salt)
       public returns (Forwarder clonedForwarder) {
     address clonedAddress = Clones.cloneDeterministic(forwarder, salt);
