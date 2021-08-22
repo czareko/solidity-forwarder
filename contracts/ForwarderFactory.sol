@@ -11,8 +11,8 @@ contract ForwarderFactory{
   function cloneForwarder(address forwarder, bytes32 salt)
       public returns (Forwarder clonedForwarder) {
     address clonedAddress = Clones.cloneDeterministic(forwarder, salt);
-    Forwarder parentForwarder = Forwarder(forwarder);
-    clonedForwarder = Forwarder(clonedAddress);
+    Forwarder parentForwarder = Forwarder(payable(forwarder));
+    clonedForwarder = Forwarder(payable(clonedAddress));
     clonedForwarder.initialize(parentForwarder.destination());
     emit FactoryCloned(clonedAddress);
   }

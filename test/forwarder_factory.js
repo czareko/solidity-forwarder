@@ -25,13 +25,13 @@ contract('ForwarderFactory', (accounts)=>{
         await forwarder.initialize(destination);
         const forwarderDestination = await forwarder.destination.call();
         const salt = 34554;// sample salt
-        const transactionRecipt = await forwarderFactory.cloneForwarder(
+        const transactionReceipt = await forwarderFactory.cloneForwarder(
             forwarder.address,
             web3.utils.asciiToHex(salt),
             {from: transactionSender}
         );
 
-        clonedContractAddress = transactionRecipt.logs[0].args.factory;
+        clonedContractAddress = transactionReceipt.logs[0].args.factory;
         const clonedForwarder = await Forwarder.at(clonedContractAddress);
         const clonedForwarderDestination = await clonedForwarder.destination.call();
  
