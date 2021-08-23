@@ -9,7 +9,6 @@ contract Forwarder is Initializable{
   
   address public destination;
 
-  event ETHReceived(address from, uint value);
   event TokensWithdrawal(address sender, uint256 balance);
   event ETHWithdrawal(address sender, uint256 balance);
 
@@ -45,8 +44,8 @@ contract Forwarder is Initializable{
    * We can flush those funds to the parent address.
    */
   function withdrawETH() public {
-    payable(destination).transfer(address(this).balance);
     emit ETHWithdrawal(address(this),address(this).balance);
+    payable(destination).transfer(address(this).balance);
   }
 
 }
