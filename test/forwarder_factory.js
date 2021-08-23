@@ -38,4 +38,23 @@ contract('ForwarderFactory', (accounts)=>{
         assert.notEqual(forwarder.address,clonedForwarder.address,'Cloned forwarder should have a different address');
         assert.equal(forwarderDestination,clonedForwarderDestination,'Destination should be cloned from original forwarder');
     });
+
+    it('address should be predictable without deployment', async()=>{
+        const destination = accounts[0];
+        const transactionSender = accounts[1];
+        await forwarder.initialize(destination);
+        const forwarderDestination = await forwarder.destination.call();
+        const salt = 34554;// sample salt
+
+        const predictedAddress = await forwarderFactory.predictAddress.call(forwarder.address,web3.utils.asciiToHex(salt));
+
+        const transactionReceipt = await forwarderFactory.cloneForwarder(
+            forwarder.address,
+            web3.utils.asciiToHex(salt),
+            {from: transactionSender}
+        );
+        clonedContractAddress = transactionReceipt.logs[0].args.factory;
+ 
+        assert.equal(predictedAddress,clonedContractAddress,'Predicted address should be identical to the one after the deployment');
+    });
 });
