@@ -1,3 +1,7 @@
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+const fs = require("fs");
+const secrets = JSON.parse(fs.readFileSync(".secrets.json").toString().trim());
+
 module.exports = {
   networks: {
     development: {
@@ -6,6 +10,30 @@ module.exports = {
       gas: 6721975,
       network_id: "*", // Match any network id
     },
+    ropsten: {
+      networkCheckTimeout: 10000,
+      provider: () => {
+        var provider = new HDWalletProvider({
+            mnemonic: secrets.mnemonic,
+            providerOrUrl: `https://ropsten.infura.io/v3/${secrets.projectId}`,
+            addressIndex: 0,
+        });
+        return provider;
+    },
+      network_id: "3",
+   },
+   kovan: {
+    networkCheckTimeout: 10000,
+    provider: () => {
+      var provider = new HDWalletProvider({
+          mnemonic: secrets.mnemonic,
+          providerOrUrl: `https://kovan.infura.io/v3/${secrets.projectId}`,
+          addressIndex: 0,
+      });
+      return provider;
+  },
+  network_id: "42",
+ }
   },
   compilers: {
      solc: {

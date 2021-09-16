@@ -7,7 +7,7 @@ import '@openzeppelin/contracts/proxy/utils/Initializable.sol';
 
 contract Forwarder is Initializable{
   
-  address public destination;
+  address private destination;
 
   event TokensWithdrawal(address sender, uint256 balance);
   event ETHWithdrawal(address sender, uint256 balance);
@@ -26,6 +26,10 @@ contract Forwarder is Initializable{
   receive() external payable {
     payable(destination).transfer(msg.value);
     emit ETHWithdrawal(msg.sender, msg.value);
+  }
+
+  function getDestination() public view returns (address _destination) {
+    return destination;
   }
 
   /**
