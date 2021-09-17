@@ -12,7 +12,7 @@ contract('Forwarder', (accounts)=>{
         
         const destination = accounts[0];
         await forwarder.initialize(destination);
-        const destinationFromForwarder = await forwarder.destination.call();
+        const destinationFromForwarder = await forwarder.getDestination.call();
 
         assert.equal(destinationFromForwarder,destination,'Destination should be the same as initialization');
     });
@@ -27,7 +27,7 @@ contract('Forwarder', (accounts)=>{
         //Forwarder initialization
         await forwarder.initialize(destination);
 
-        const destinationFromForwarder = await forwarder.destination.call();
+        const destinationFromForwarder = await forwarder.getDestination.call();
 
         //Destination checks for the final calculations
         const destinationStartBalanceWei = await web3.eth.getBalance(destination);
@@ -70,7 +70,7 @@ contract('Forwarder', (accounts)=>{
         //Forwarder initialization
         await forwarder.initialize(destination);
 
-        let destinationFromForwarder = await forwarder.destination.call();
+        let destinationFromForwarder = await forwarder.getDestination.call();
 
         //Destination checks for the final calculations
         const destinationStartBWei = await web3.eth.getBalance(destination);
@@ -107,7 +107,7 @@ contract('Forwarder', (accounts)=>{
 
         clonedContractAddress = transactionReceiptFromClone.logs[0].args.factory;
         const clonedForwarder = await Forwarder.at(clonedContractAddress);
-        const clonedForwarderDestination = await clonedForwarder.destination.call();
+        const clonedForwarderDestination = await clonedForwarder.getDestination.call();
 
         //Here we have sender as an executor, so all fees are on his side
         //We can change this to {from: destination} but of course fees will be on destination side,
@@ -118,12 +118,13 @@ contract('Forwarder', (accounts)=>{
         //Predicted address balance - again
         const predictedAddressEndBWei = await web3.eth.getBalance(predictedAddress);
         const predictedAddressEndB = await web3.utils.fromWei(predictedAddressEndBWei,'ether');
+        
         assert.equal(predictedAddressEndB,0,'Should be empty again.');
 
         //Let's check destination from first forwarder
         
         //Destination new balance after withdraw
-        destinationFromForwarder = await forwarder.destination.call();
+        destinationFromForwarder = await forwarder.getDestination.call();
         const destinationAfterWithdrawWei = await web3.eth.getBalance(destinationFromForwarder);
         const destinationEndAfterWithdrawB = await web3.utils.fromWei(destinationAfterWithdrawWei,'ether');
 

@@ -16,7 +16,7 @@ contract ForwarderFactory{
     address clonedAddress = Clones.cloneDeterministic(forwarder, salt);
     Forwarder parentForwarder = Forwarder(payable(forwarder));
     clonedForwarder = Forwarder(payable(clonedAddress));
-    clonedForwarder.initialize(parentForwarder.destination());
+    clonedForwarder.initialize(parentForwarder.getDestination());
     emit FactoryCloned(clonedAddress);
   }
 
