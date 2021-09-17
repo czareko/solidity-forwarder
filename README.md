@@ -25,7 +25,7 @@ To have better understanding of the conncept, please read
 
 [Ganache](https://www.trufflesuite.com/ganache) - for local tests
 
-## Envronment
+## Environment
 
 There are a few technical requirements before you start. 
 Please install the following:

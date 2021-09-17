@@ -1,0 +1,17 @@
+{
+    "name": "solidity-forwarder-client",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "init_test": "node 1_init.js",
+      "factory_test": "node 2_factory.js",
+      "forwarder_test":"node 3_forwarder.js"
+    },
+    "author": "Cezary Olborski",
+    "license": "ISC",
+    "dependencies": {
+      "web3": "^1.5.2"
+    }
+  }
+  
