@@ -45,3 +45,37 @@ Truffle configuration file is prepared for local run - [truffle-config.js](https
 ## Commands 
 
 The full command reference is available [here](https://www.trufflesuite.com/docs/truffle/reference/truffle-commands)
+
+Basic examples:
+
+Compilation: `truffle compile`
+
+Deployment/Migration: `truffle migrate --network development`
+
+Run all local tests: `truffle test`
+
+Run selected local tests: `truffle test test/[FILENAME]`
+
+## Verification with web3js and Ropsten test network
+
+For external verification we will use infura and Ropsten network.
+
+1. Make a copy of `.example.secrets.json' with name `.secrets.json` in the same catalog 
+2. Install Metamask at your local computer
+3. Add some funds to the address in metamask using Ropsten faucet (https://faucet.ropsten.be/)
+4. Copy mnemonic to variable MNEMONIC in `.secrets.json'
+5. Create an account at https://infura.io/
+6. Create a new project there and save project ID
+7. Fill PROJECT_ID in `.secrets.json` with the value saved in INFURA
+8. Deploy the project using the command `truffle migrate --network ropsten`
+9. Save deployed smart contract addresses
+
+1. Go to catalog `test/client`
+2. Run `npm install`
+3. Make a copy of `.example.netfonig.json` with the name `.netconfig.json` in the same catalog
+4. Fill all fields in the configuration file
+5. Initialize forwarder smart contract with command `npm run init_test`
+6. To check factory methods run the command `npm run factory_test`
+7. To check forwarder methods run the command `npm run forwarder_test`
+
+
