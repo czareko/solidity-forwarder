@@ -14,8 +14,8 @@ module.exports = {
       networkCheckTimeout: 10000,
       provider: () => {
         var provider = new HDWalletProvider({
-            mnemonic: secrets.mnemonic,
-            providerOrUrl: `https://ropsten.infura.io/v3/${secrets.projectId}`,
+            mnemonic: secrets.MNEMONIC,
+            providerOrUrl: `https://ropsten.infura.io/v3/${secrets.PROJECT_ID}`,
             addressIndex: 0,
         });
         return provider;
@@ -26,8 +26,8 @@ module.exports = {
     networkCheckTimeout: 10000,
     provider: () => {
       var provider = new HDWalletProvider({
-          mnemonic: secrets.mnemonic,
-          providerOrUrl: `https://kovan.infura.io/v3/${secrets.projectId}`,
+          mnemonic: secrets.MNEMONIC,
+          providerOrUrl: `https://kovan.infura.io/v3/${secrets.PROJECT_ID}`,
           addressIndex: 0,
       });
       return provider;
