@@ -76,6 +76,5 @@ For external verification we will use infura and Ropsten network.
 4. Fill all fields in the configuration file
 5. Initialize forwarder smart contract with command `npm run init_test`
 6. To check factory methods run the command `npm run factory_test`
-7. To check forwarder methods run the command `npm run forwarder_test`
 
 
